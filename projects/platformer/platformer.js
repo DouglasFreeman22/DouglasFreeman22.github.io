@@ -44,7 +44,7 @@ $(function () {
     createPlatform(110, 210, 40, 20);
     createPlatform(350, 220, 40, 20);
     createPlatform(750, 240, 40, 20);
-    createPlatform(920, 100, 50, 20);
+    createPlatform(920, 100, 61, 20);
     createPlatform(63, 88, 50, 20);
     createPlatform(110, 89, 3, 130);
     createPlatform(1100,200,50,20);
