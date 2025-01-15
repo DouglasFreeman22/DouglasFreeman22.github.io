@@ -47,7 +47,10 @@ $(function () {
     createPlatform(920, 100, 50, 20);
     createPlatform(63, 88, 50, 20);
     createPlatform(110, 89, 3, 130);
-    
+    createPlatform(1100,200,50,20);
+    createPlatform(1250,400,50,20);
+    createPlatform(1200,640,50,20);
+
 
     // TODO 2
     // Create collectables
@@ -57,7 +60,8 @@ $(function () {
 
     createCollectable("sucker", 700, 400, 10, 0.5);
     createCollectable("cherry", 940, 60, 10, 0.5);
-    createCollectable("burger", 115, 80, 10, 0.5);
+    createCollectable("sandwhich", 115, 80, 10, 0.5);
+    createCollectable("burger", 1275, 80, 10, 0.5);
     
     // TODO 3
     // Create cannons
