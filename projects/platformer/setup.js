@@ -101,4 +101,5 @@ var collectableList = {
   burger: {image: "images/collectables/burger(1).png"},
   cherry: {image: "images/collectables/cherry.png"},
   sandwhich: {image: "images/collectables/sandwhich"},
+  pancakes: {image: "images/collectables/pancakes.png"},
 };
