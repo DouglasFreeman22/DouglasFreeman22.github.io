@@ -6,6 +6,13 @@
 	<title>Bouncing Box</title>
 	<script src="jquery.min.js"></script>
 	<style>
+		body {
+ 	background-image: url("img/813c07108797191.5fc5eab3009d7.jpg");
+	 -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+	}
 		.box {
 			width: 70px;
 			height: 70px;
@@ -52,8 +59,9 @@
 			box.on('click', handleBoxClick);
 
 			// moves the Box to a new position on the screen along the X-Axis
-			function moveBoxTo(newPositionX) {
+			function moveBoxTo(newPositionX, newPositionY) {
 				box.css("left", newPositionX);
+				box.css("top", newPositionY);
 			}
 
 			// changes the text displayed on the Box
@@ -69,6 +77,9 @@
 			var positionX = 0;
 			var points = 0;
 			var speed = 10;
+			var positionY = 0;
+			var speedY = 10;
+			var boardHeight = jQuery(window).height();
 
 			/* 
 			This Function will be called 20 times/second. Each time it is called,
@@ -78,13 +89,20 @@
 			function update() {
 				//Code to increase positionX by 10
 				positionX = positionX + speed;
-				moveBoxTo(positionX);
+				positionY = positionY + speedY;
+				moveBoxTo(positionX, positionY);
 
 				if(positionX > boardWidth){
 					speed = -speed
 				}; 
 				if(positionX < 0){
 					speed = -speed
+				};
+				if(positionY > boardHeight){
+					speedY = -speedY
+				}; 
+				if(positionY < 0){
+					speedY = -speedY
 				};
 			};
 
@@ -99,7 +117,16 @@
 				points ++;
 				changeBoxText(points);
 				// make box faster
-				speed += 3;
+				if(speed > 0){
+					speed += 3;
+				} else if(speed < 0){
+					speed -= 3;
+				}
+				if(speedY > 0){
+					speedY += 3;
+				} else if(speedY < 0){
+					speedY -= 3;
+				}
 				//reposition box to left side
 				positionX = 0;
 
