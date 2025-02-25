@@ -20,6 +20,7 @@ var init = function (window) {
         ////////////////////////////////////////////////////////////
         
         // TODO 1 : Declare and initialize our variables
+        //Created two variables
         var circle;
         var circles = [];
         // TODO 2 : Create a function that draws a circle 
@@ -53,6 +54,7 @@ var init = function (window) {
         In each frame, for every circle, it should redraw that circle
         and check to see if it has drifted off the screen.         
         */
+       //Updates the circle's position
         function update() {
             // TODO 4 : Update the circle's position //
 
@@ -98,7 +100,7 @@ var init = function (window) {
             }
             
             // TODO 6 : YOUR CODE STARTS HERE //////////////////////
-            //if they go off one side of the screen they go to the other side
+            //if they go off one side of the screen they get put to the other side
            if (circle.x < 0){
             circle.x = canvas.width;
            } else if (circle.y < 0){
