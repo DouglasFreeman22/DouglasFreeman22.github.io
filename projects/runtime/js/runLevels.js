@@ -33,23 +33,23 @@ var runLevels = function (window) {
     ObstaclesHitZone.rotationalVelocity = 10;
     }
 
-    createObstacles(400, groundY - 50, 25, 20);
-    createObstacles(800, groundY - 30, 35, 50);
-    createObstacles(1000, groundY - 100, 50, 100);
+    //createObstacles(400, groundY - 50, 25, 20);
+    //createObstacles(800, groundY - 30, 35, 50);
+    //createObstacles(1000, groundY - 100, 50, 100);
 
-  function createreward (x,y, velocity, health){
+  function createEnemy (x,y, velocity, health){
 
-    var reward = game.createGameItem("reward", 25); //creates reward and adds it to the game
+    var enemy = game.createGameItem("enemy", 25); //creates enemy and adds it to the game
     var redSquare = draw.rect(50, 50, "red"); //creates a red square and stores it in a variable
     redSquare.x = -25; //offsets the red squares image from the hitzone by -25 pixls
     redSquare.y = -25; //offsets the red squares image from the hitzone by -25 pixls
-    reward.addChild(redSquare); //adds the red square as a child to our reward variable
-    reward.x = x; //x position of reward
-    reward.y = y; //y position of reward
-    game.addGameItem(reward); //adds reward to game
-    reward.velocityX -= velocity; //controlling how fast the reward moves on the x axis
-    reward.rotationalVelocity = 10; //sets the rotational velocity of the reward
-    reward.onPlayerCollision = function () {
+    enemy.addChild(redSquare); //adds the red square as a child to our enemy variable
+    enemy.x = x; //x position of enemy
+    enemy.y = y; //y position of enemy
+    game.addGameItem(enemy); //adds enemy to game
+    enemy.velocityX -= velocity; //controlling how fast the enemy moves on the x axis
+    enemy.rotationalVelocity = 10; //sets the rotational velocity of the enemy
+    enemy.onPlayerCollision = function () {
       game.changeIntegrity(health) //subtracts 10 health from halleBot's HUD
     };
     enemy.onProjectileCollision = function (){
@@ -67,27 +67,57 @@ var runLevels = function (window) {
   function createReward (x,y, velocity, health){
 
     var reward = game.createGameItem("reward", 25); //creates reward and adds it to the game
-    var redSquare = draw.rect(50, 50, "blue"); //creates a red square and stores it in a variable
-    redSquare.x = -25; //offsets the red squares image from the hitzone by -25 pixls
-    redSquare.y = -25; //offsets the red squares image from the hitzone by -25 pixls
-    reward.addChild(redSquare); //adds the red square as a child to our reward variable
+    var blueSquare = draw.rect(50, 50, "blue"); //creates a blue square and stores it in a variable
+    blueSquare.x = -25; //offsets the blue squares image from the hitzone by -25 pixls
+    blueSquare.y = -25; //offsets the blue squares image from the hitzone by -25 pixls
+    reward.addChild(blueSquare); //adds the blue square as a child to our reward variable
     reward.x = x; //x position of reward
     reward.y = y; //y position of reward
     game.addGameItem(reward); //adds reward to game
     reward.velocityX -= velocity; //controlling how fast the reward moves on the x axis
     reward.rotationalVelocity = 10; //sets the rotational velocity of the reward
     reward.onPlayerCollision = function () {
-      game.changeIntegrity(health) //subtracts 10 health from halleBot's HUD
       game.increaseScore(1000);
       reward.shrink();
     };
   }
 
-  createReward (500,groundY - 100, 3, 40)
+  createReward (500, groundY - 100, 3, 40)
 
+  function createLevel (x,y, velocity){
+
+    var level = game.createGameItem("level", 25); //creates level and adds it to the game
+    var yellowSquare = draw.rect(50, 50, "yellow"); //creates a yellow square and stores it in a variable
+    yellowSquare.x = -25; //offsets the yellow squares image from the hitzone by -25 pixls
+    yellowSquare.y = -25; //offsets the yellow squares image from the hitzone by -25 pixls
+    level.addChild(yellowSquare); //adds the yellow square as a child to our level variable
+    level.x = x; //x position of level
+    level.y = y; //y position of level
+    game.addGameItem(reward); //adds level to game
+    level.velocityX -= velocity; //controlling how fast the reward moves on the x axis
+    level.rotationalVelocity = 10; //sets the rotational velocity of the reward
+    level.onPlayerCollision = function () {
+      game.changeIntegrity(health) //subtracts 10 health from halleBot's HUD
+      game.increaseScore(1000);
+      level.shrink();
+      startLevel();
+    };
+  }
+
+  createLevel (1500, groundY - 100, 3)
 
     function startLevel() {
       // TODO 13 goes below here
+
+      var level = levelData[currentLevel]; //fetches the currentLevel from the levelData array and stores it in var level
+      levelObjects = level.gameItems //retrive the array of gameItems and stores it in levelObjects
+
+      for(var i = 0; i < levelObjects.length; i++){
+        var element = levelObjects[i];
+        if(element.type === "sawblade"){
+          createObstacles(element.x, element.y, element.hitSize, element.damage);
+        }
+      }
 
 
 
