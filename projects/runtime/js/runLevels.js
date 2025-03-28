@@ -60,9 +60,9 @@ var runLevels = function (window) {
     }
   }
   
-  createEnemy(400, groundY - 50, 3, -10);
-  createEnemy(800, groundY - 50, 2, -30);
-  createEnemy(1200, groundY - 50, 7, -50);
+  //createEnemy(400, groundY - 50, 3, -10);
+  //createEnemy(800, groundY - 50, 2, -30);
+  //createEnemy(1200, groundY - 50, 7, -50);
 
   function createReward (x,y, velocity, health){
 
@@ -82,9 +82,9 @@ var runLevels = function (window) {
     };
   }
 
-  createReward (500, groundY - 100, 3, 40)
+  //createReward (500, groundY - 100, 3, 40)
 
-  function createLevel (x,y, velocity){
+  function createLevel (x, y, velocity){
 
     var level = game.createGameItem("level", 25); //creates level and adds it to the game
     var yellowSquare = draw.rect(50, 50, "yellow"); //creates a yellow square and stores it in a variable
@@ -93,18 +93,17 @@ var runLevels = function (window) {
     level.addChild(yellowSquare); //adds the yellow square as a child to our level variable
     level.x = x; //x position of level
     level.y = y; //y position of level
-    game.addGameItem(reward); //adds level to game
+    game.addGameItem(level); //adds level to game
     level.velocityX -= velocity; //controlling how fast the reward moves on the x axis
     level.rotationalVelocity = 10; //sets the rotational velocity of the reward
     level.onPlayerCollision = function () {
-      game.changeIntegrity(health) //subtracts 10 health from halleBot's HUD
       game.increaseScore(1000);
       level.shrink();
       startLevel();
     };
   }
 
-  createLevel (1500, groundY - 100, 3)
+  //createLevel (1500, groundY - 100, 3)
 
     function startLevel() {
       // TODO 13 goes below here
@@ -114,8 +113,18 @@ var runLevels = function (window) {
 
       for(var i = 0; i < levelObjects.length; i++){
         var element = levelObjects[i];
-        if(element.type === "sawblade"){
-          createObstacles(element.x, element.y, element.hitSize, element.damage);
+        if(element.type === "sawblade"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createObstacles(element.x, element.y, element.hitSize, element.damage); //if the condition is true it will call the relevant function
+        }
+
+        if(element.type === "enemy"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createEnemy(element.x, element.y, element.velocity, element.health); //if the condition is true it will call the relevant function
+        }
+        if(element.type === "reward"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createReward(element.x, element.y, element.velocity, element.health); //if the condition is true it will call the relevant function
+        }
+        if(element.type === "level"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createLevel(element.x, element.y, element.velocity); //if the condition is true it will call the relevant function
         }
       }
 
