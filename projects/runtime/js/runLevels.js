@@ -19,7 +19,7 @@ var runLevels = function (window) {
     // TODOs 5 through 11 go here
     // BEGIN EDITING YOUR CODE HERE
 
-    function createObstacles(x, y, hitSize, damage, image, rotation){
+    function createObstacles(x, y, hitSize, damage, image, rotation, offSetX, offSetY){
     var hitZoneSize = hitSize; //define the size of the hit zone and assign it to a variable
     var damageFromObstacles = damage; //defines the amount of damage the Obstacles causes and assigns it to a variable
     var ObstaclesHitZone = game.createObstacle(hitZoneSize, damageFromObstacles); //creates the Obstacle hit zone using the size and damage as perameters and assigns it a variable
@@ -28,8 +28,8 @@ var runLevels = function (window) {
     game.addGameItem(ObstaclesHitZone); //adds the Obstacles hit zone to the game
     var ObstaclesImage = draw.bitmap(image); //draw the image bitmap and store it to a variable
     ObstaclesHitZone.addChild(ObstaclesImage); //attach an image to the Obstacles hitzone
-    ObstaclesImage.x = -25; // position the image on the hitzone's x value by moving it left by 25 pixles
-    ObstaclesImage.y = -25; // position the image on the hitzone's y value by moving it up by 25 pixles
+    ObstaclesImage.x = offSetX; // position the image on the hitzone's x value by moving it left by 25 pixles
+    ObstaclesImage.y = offSetY; // position the image on the hitzone's y value by moving it up by 25 pixles
     ObstaclesHitZone.rotationalVelocity = rotation;
     }
 
@@ -114,7 +114,10 @@ var runLevels = function (window) {
       for(var i = 0; i < levelObjects.length; i++){
         var element = levelObjects[i];
         if(element.type === "sawblade"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
-          createObstacles(element.x, element.y, element.hitSize, element.damage, element.image, element.rotation); //if the condition is true it will call the relevant function
+          createObstacles(element.x, element.y, element.hitSize, element.damage, element.image, element.rotation, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
+        }
+        if(element.type === "spikes"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createObstacles(element.x, element.y, element.hitSize, element.damage, element.image, element.rotation, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
 
         if(element.type === "enemy"){ //checks the type key: value of the gameItems objects to determine which objects to manifest

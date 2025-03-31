@@ -15,7 +15,7 @@ var makeLevelData = function (window) {
         number: 1,
         speed: -3,
         gameItems: [
-          { type: "sawblade", x: 400, y: groundY - 100, hitSize: 25, damage: 20, image: "img/sawblade.png", rotation: 10},
+          { type: "spikes", x: 400, y: groundY - 150, hitSize: 20, damage: 20, image:"img/spikes.png", rotation: 0, offSetX: 20, offSetY:-100},
           { type: "sawblade", x: 700, y: groundY + 10, hitSize: 35, damage: 50, image: "img/sawblade.png", rotation: 10},
           { type: "sawblade", x: 1000, y: groundY - 110, hitSize: 30, damage: 100, image: "img/sawblade.png", rotation: 10},
 
