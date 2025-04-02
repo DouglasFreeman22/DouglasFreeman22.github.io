@@ -66,7 +66,7 @@ var runLevels = function (window) {
   //createEnemy(800, groundY - 50, 2, -30);
   //createEnemy(1200, groundY - 50, 7, -50);
 
-  function createReward (x,y, velocity, health, image, scaleX, scaleY, offSetX, offSetY){
+  function createReward (x,y, velocity, health, image, scaleX, scaleY, offSetX, offSetY, chest1, chest2, chest3){
 
     var reward = game.createGameItem("reward", 25); //creates reward and adds it to the game
     var blueSquare = draw.rect(image); //creates a blue square and stores it in a variable
@@ -78,7 +78,22 @@ var runLevels = function (window) {
     game.addGameItem(reward); //adds reward to game
     reward.velocityX -= velocity; //controlling how fast the reward moves on the x axis
     reward.rotationalVelocity = 1; //sets the rotational velocity of the reward
-    reward.onPlayerCollision = function () {
+    game.changeIntegrity(health);
+    reward.onPlayerCollision = function (hit) {
+      hit = true;
+      if (hit = true){
+        blueSquare = draw.rect(chest1);
+        function chest (hit2){
+          hit2 = true;
+          if(hit2 = true){
+            blueSquare = draw.rect(chest2);
+            function chest (hit3){
+              hit3 = true
+              blueSquare = draw.rect(chest3);
+            }
+          }
+        }
+      }
       game.increaseScore(1000);
       reward.shrink();
     };
