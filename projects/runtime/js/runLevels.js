@@ -45,8 +45,8 @@ var runLevels = function (window) {
     enemy.addChild(redSquare); //adds the red square as a child to our enemy variable
     enemy.x = x; //x position of enemy
     enemy.y = y; //y position of enemy
-    enemy.scaleX = scaleX;
-    enemy.scaleY = scaleY;
+    redSquare.scaleX = scaleX;
+    redSquare.scaleY = scaleY;
     game.addGameItem(enemy); //adds enemy to game
     enemy.velocityX -= velocity; //controlling how fast the enemy moves on the x axis
     enemy.rotationalVelocity = 0; //sets the rotational velocity of the enemy
@@ -84,10 +84,25 @@ var runLevels = function (window) {
       game.increaseScore(1000);
       reward.shrink();
     };
-    function chest (){
-      var blueSquare = draw.rect("img/chest1.png");
-    }
   }
+  function createChest (x,y, hitSize, velocity, health, scaleX, scaleY, offSetX, offSetY){
+    var reward = game.createGameItem("reward", hitSize); //creates reward and adds it to the game
+    var chest = draw.bitmap("img/chest1.png"); //creates a blue square and stores it in a variable
+    chest.x = offSetX; //offsets the blue squares image from the hitzone by -25 pixls
+    chest.y = offSetY; //offsets the blue squares image from the hitzone by -25 pixls
+    reward.addChild(chest); //adds the blue square as a child to our reward variable
+    reward.x = x; //x position of reward
+    reward.y = y; //y position of reward
+    chest.scaleX = scaleX;
+    chest.scaleY = scaleY;
+    game.addGameItem(reward); //adds reward to game
+    reward.velocityX -= velocity; //controlling how fast the reward moves on the x axis
+    game.changeIntegrity(health);
+    chest.onPlayerCollision = function (){
+      game.increaseScore(100);
+      chest.shrink(); 
+    }
+  };
 
   //createReward (500, groundY - 100, 3, 40)
 
@@ -137,6 +152,9 @@ var runLevels = function (window) {
         }
         if(element.type === "reward"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createReward(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
+        }
+        if(element.type === "chest"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createChest(element.x, element.y, element.hitSize, element.velocity, element.health, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
         if(element.type === "level"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createLevel(element.x, element.y, element.velocity, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
