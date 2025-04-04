@@ -86,6 +86,7 @@ var runLevels = function (window) {
     };
   }
   function createChest (x,y, hitSize, velocity, health, scaleX, scaleY, offSetX, offSetY){
+    var collisions = 0;
     var reward = game.createGameItem("reward", hitSize); //creates reward and adds it to the game
     var chest = draw.bitmap("img/chest1.png"); //creates a blue square and stores it in a variable
     chest.x = offSetX; //offsets the blue squares image from the hitzone by -25 pixls
@@ -98,9 +99,31 @@ var runLevels = function (window) {
     game.addGameItem(reward); //adds reward to game
     reward.velocityX -= velocity; //controlling how fast the reward moves on the x axis
     game.changeIntegrity(health);
-    chest.onPlayerCollision = function (){
+    reward.onProjectileCollision = function (){
+      collisions++
       game.increaseScore(100);
-      chest.shrink(); 
+      if (collisions === 1){
+        chest = draw.bitmap("img/chest2.png");
+        chest.x = offSetX; //offsets the blue squares image from the hitzone by -25 pixls
+        chest.y = offSetY; //offsets the blue squares image from the hitzone by -25 pixls
+        reward.addChild(chest); //adds the blue square as a child to our reward variable
+        reward.x = x; //x position of reward
+        reward.y = y; //y position of reward
+        chest.scaleX = scaleX;
+        chest.scaleY = scaleY;
+        game.addGameItem(reward); //adds reward to game
+      }if (collisions === 2){
+        chest = draw.bitmap("img/chest3.png");
+        chest.x = offSetX; //offsets the blue squares image from the hitzone by -25 pixls
+        chest.y = offSetY; //offsets the blue squares image from the hitzone by -25 pixls
+        reward.addChild(chest); //adds the blue square as a child to our reward variable
+        reward.x = x; //x position of reward
+        reward.y = y; //y position of reward
+        chest.scaleX = scaleX;
+        chest.scaleY = scaleY;
+        game.addGameItem(reward); //adds reward to game
+        game.changeIntegrity(health);
+      }
     }
   };
 
