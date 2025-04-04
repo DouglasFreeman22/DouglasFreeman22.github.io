@@ -24,7 +24,7 @@ var makeLevelData = function (window) {
 
           { type: "chest", x: 800, y: groundY - 15, hitSize: 50, velocity: 3, health: 40, scaleX: 0.3, scaleY: 0.3, offSetX: -53, offSetY: -90},
       
-          { type: "level", x: 1000, y: groundY - 101, hitSize: 50, velocity: 3, scaleX: 1, scaleY: 1, offSetX: -10, offSetY: -10},
+          { type: "level", x: 3000, y: groundY - 60, hitSize: 50, velocity: 3, scaleX: 1, scaleY: 1, offSetX: -68, offSetY: -90},
         ],
       },
       {

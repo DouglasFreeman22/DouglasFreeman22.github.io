@@ -103,7 +103,7 @@ var runLevels = function (window) {
       collisions++
       game.increaseScore(100);
       if (collisions === 1){
-        chest = draw.bitmap("img/chest2.png");
+        chest.image = draw.bitmap("img/chest2.png").image;
         chest.x = offSetX; //offsets the blue squares image from the hitzone by -25 pixls
         chest.y = offSetY; //offsets the blue squares image from the hitzone by -25 pixls
         reward.addChild(chest); //adds the blue square as a child to our reward variable
@@ -113,7 +113,7 @@ var runLevels = function (window) {
         chest.scaleY = scaleY;
         game.addGameItem(reward); //adds reward to game
       }if (collisions === 2){
-        chest = draw.bitmap("img/chest3.png");
+        chest.image = draw.bitmap("img/chest3.png").image;
         chest.x = offSetX; //offsets the blue squares image from the hitzone by -25 pixls
         chest.y = offSetY; //offsets the blue squares image from the hitzone by -25 pixls
         reward.addChild(chest); //adds the blue square as a child to our reward variable
@@ -126,13 +126,14 @@ var runLevels = function (window) {
       }
     }
   };
+  
 
   //createReward (500, groundY - 100, 3, 40)
 
   function createLevel (x, y, hitSize, velocity, scaleX, scaleY, offSetX, offSetY){
 
     var level = game.createGameItem("level", hitSize); //creates level and adds it to the game
-    var yellowSquare = draw.rect("img/doorClosed.png"); //creates a yellow square and stores it in a variable
+    var yellowSquare = draw.bitmap("img/doorClosed.png"); //creates a yellow square and stores it in a variable
     yellowSquare.x = offSetX; //offsets the yellow squares image from the hitzone by -25 pixls
     yellowSquare.y = offSetY; //offsets the yellow squares image from the hitzone by -25 pixls
     level.addChild(yellowSquare); //adds the yellow square as a child to our level variable
@@ -142,19 +143,25 @@ var runLevels = function (window) {
     level.scaleY = scaleY;
     game.addGameItem(level); //adds level to game
     level.velocityX -= velocity; //controlling how fast the reward moves on the x axis
-//sets the rotational velocity of the reward
     level.onPlayerCollision = function () {
       game.increaseScore(1000);
-      yellowSquare = draw.rect("img/doorOpen.png");
-      yellowSquare.x = offSetX; //offsets the yellow squares image from the hitzone by -25 pixls
+      yellowSquare = draw.bitmap("img/doorOpen.png");
+      yellowSquare.x = offSetX + 40; //offsets the yellow squares image from the hitzone by -25 pixls
       yellowSquare.y = offSetY; //offsets the yellow squares image from the hitzone by -25 pixls
       level.addChild(yellowSquare); //adds the yellow square as a child to our level variable
-      level.x = x; //x position of level
-      level.y = y; //y position of level
       level.scaleX = scaleX;
       level.scaleY = scaleY;
       game.addGameItem(level); //adds level to game
-
+      level.onProjectileCollision = function () {
+        game.increaseScore(1000);
+        yellowSquare = draw.bitmap("img/doorOpen.png");
+        yellowSquare.x = offSetX + 40; //offsets the yellow squares image from the hitzone by -25 pixls
+        yellowSquare.y = offSetY; //offsets the yellow squares image from the hitzone by -25 pixls
+        level.addChild(yellowSquare); //adds the yellow square as a child to our level variable
+        level.scaleX = scaleX;
+        level.scaleY = scaleY;
+        game.addGameItem(level); //adds level to game
+      };
     };
   }
 
