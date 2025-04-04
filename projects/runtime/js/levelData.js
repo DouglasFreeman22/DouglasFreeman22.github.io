@@ -19,11 +19,12 @@ var makeLevelData = function (window) {
 
           { type: "knight", x: 2000, y: groundY - 65, hitSize: 50, velocity: 3, health: -10, image: "img/knight.png", scaleX: 0.2, scaleY: 0.2, offSetX: -105, offSetY: -90},
 
+          { type: "mage", x: 2000, y: groundY - 50, hitSize: 30, velocity: 2, health: -10, image: "img/mage.png", scaleX: 1.2, scaleY: 1.2, offSetX: -70, offSetY: -75},
           //{ type: "reward", x: 500, y: groundY - 100, hitSize: 50, velocity: 3, health: 40, image: "img/spikes.png", scaleX: 1, scaleY: 1, offSetX: -10, offSetY: -10},
 
           { type: "chest", x: 800, y: groundY - 15, hitSize: 50, velocity: 3, health: 40, scaleX: 0.3, scaleY: 0.3, offSetX: -53, offSetY: -90},
       
-          { type: "level", x: 2000, y: groundY - 101, velocity: 3, image: "img/spikes.png", scaleX: 1, scaleY: 1, offSetX: -10, offSetY: -10},
+          { type: "level", x: 1000, y: groundY - 101, hitSize: 50, velocity: 3, scaleX: 1, scaleY: 1, offSetX: -10, offSetY: -10},
         ],
       },
       {

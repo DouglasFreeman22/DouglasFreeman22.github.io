@@ -129,10 +129,10 @@ var runLevels = function (window) {
 
   //createReward (500, groundY - 100, 3, 40)
 
-  function createLevel (x, y, velocity, image, scaleX, scaleY, offSetX, offSetY){
+  function createLevel (x, y, hitSize, velocity, scaleX, scaleY, offSetX, offSetY){
 
-    var level = game.createGameItem("level", 25); //creates level and adds it to the game
-    var yellowSquare = draw.rect(image); //creates a yellow square and stores it in a variable
+    var level = game.createGameItem("level", hitSize); //creates level and adds it to the game
+    var yellowSquare = draw.rect("img/doorClosed.png"); //creates a yellow square and stores it in a variable
     yellowSquare.x = offSetX; //offsets the yellow squares image from the hitzone by -25 pixls
     yellowSquare.y = offSetY; //offsets the yellow squares image from the hitzone by -25 pixls
     level.addChild(yellowSquare); //adds the yellow square as a child to our level variable
@@ -142,11 +142,19 @@ var runLevels = function (window) {
     level.scaleY = scaleY;
     game.addGameItem(level); //adds level to game
     level.velocityX -= velocity; //controlling how fast the reward moves on the x axis
-    level.rotationalVelocity = 5; //sets the rotational velocity of the reward
+//sets the rotational velocity of the reward
     level.onPlayerCollision = function () {
       game.increaseScore(1000);
-      level.shrink();
-      startLevel();
+      yellowSquare = draw.rect("img/doorOpen.png");
+      yellowSquare.x = offSetX; //offsets the yellow squares image from the hitzone by -25 pixls
+      yellowSquare.y = offSetY; //offsets the yellow squares image from the hitzone by -25 pixls
+      level.addChild(yellowSquare); //adds the yellow square as a child to our level variable
+      level.x = x; //x position of level
+      level.y = y; //y position of level
+      level.scaleX = scaleX;
+      level.scaleY = scaleY;
+      game.addGameItem(level); //adds level to game
+
     };
   }
 
@@ -173,6 +181,9 @@ var runLevels = function (window) {
         if(element.type === "knight"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
+        if(element.type === "mage"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
+        }
         if(element.type === "reward"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createReward(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
@@ -180,7 +191,7 @@ var runLevels = function (window) {
           createChest(element.x, element.y, element.hitSize, element.velocity, element.health, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
         if(element.type === "level"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
-          createLevel(element.x, element.y, element.velocity, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
+          createLevel(element.x, element.y, element.hitSize, element.velocity, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
       }
 
