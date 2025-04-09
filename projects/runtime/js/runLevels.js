@@ -3,7 +3,7 @@ var runLevels = function (window) {
 
   var draw = window.opspark.draw;
   var createjs = window.createjs;
-  let currentLevel = 0;
+  let currentLevel = 1;
 
   window.opspark.runLevelInGame = function (game) {
     // some useful constants
@@ -37,7 +37,7 @@ var runLevels = function (window) {
     //createObstacles(800, groundY - 30, 35, 50);
     //createObstacles(1000, groundY - 100, 50, 100);
 
-  function createEnemy (x,y, hitSize, velocity, health, image, scaleX, scaleY, offSetX, offSetY){
+  function createEnemy (x,y, hitSize, velocity, health, image, scaleX, scaleY, offSetX, offSetY, rotation){
     var enemy = game.createGameItem("enemy", hitSize); //creates enemy and adds it to the game
     var redSquare = draw.bitmap(image); //creates a red square and stores it in a variable
     redSquare.x = offSetX; //offsets the red squares image from the hitzone by -25 pixls
@@ -49,7 +49,7 @@ var runLevels = function (window) {
     redSquare.scaleY = scaleY;
     game.addGameItem(enemy); //adds enemy to game
     enemy.velocityX -= velocity; //controlling how fast the enemy moves on the x axis
-    enemy.rotationalVelocity = 0; //sets the rotational velocity of the enemy
+    enemy.rotationalVelocity = rotation; //sets the rotational velocity of the enemy
     enemy.onPlayerCollision = function () {
       game.changeIntegrity(health) //subtracts 10 health from halleBot's HUD
     };
@@ -168,6 +168,9 @@ var runLevels = function (window) {
         }
         if(element.type === "mage"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
+        }
+        if(element.type === "mageShot"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY, element.rotation); //if the condition is true it will call the relevant function
         }
         if(element.type === "dragon"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
