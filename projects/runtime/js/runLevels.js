@@ -169,6 +169,9 @@ var runLevels = function (window) {
         if(element.type === "mage"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
+        if(element.type === "dragon"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
+          createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
+        }
         if(element.type === "reward"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createReward(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
