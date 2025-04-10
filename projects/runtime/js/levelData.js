@@ -74,6 +74,14 @@ var makeLevelData = function (window) {
        
         ],
       },
+      {
+        name: "Robot Rob",
+        number: 3,
+        speed: -3,
+        gameItems: [
+          { type: "boss", x: 1550, y: groundY - 145, hitSize: 165, velocity: 5, damage: -30, image: "img/kingMaskOn.png", scaleX: 4, scaleY: 4, offSetX: -140, offSetY: -190},
+        ],
+      },
     ];
     window.opspark.levelData = levelData;
   };
