@@ -44,14 +44,15 @@ var background = function (window) {
             background.addChild(backgroundFill); 
             
             // TODO 2: - Add a moon and starfield
-            for (var i = 0; i < 100; i++){
+           /* for (var i = 0; i < 100; i++){
                 var circle = draw.circle(10, "white", "LightGray", 2); //creates a cirle with a specified radius, border color, fill color
                 circle.x = canvasWidth * Math.random(); //gives it a random x position within canvas width
                 circle.y = groundY * Math.random(); //gives it a random y position within groundY range
                 background.addChild(circle); //adds t5he star to the background container
-            }
+                }
+                */  
             
-            var moon = draw.bitmap("img/moon.png"); // creates a bitmap object using the moon image
+            var moon = draw.bitmap("img/light.png"); // creates a bitmap object using the moon image
             moon.x = canvas.width - 1300; // sets the moon's x position
             moon.y = groundY - 500; //sets the moon's y poistion
             moon.scaleX = 1.0; // scales the moon's width
@@ -61,20 +62,20 @@ var background = function (window) {
             // TODO 4: Part 1 - Add buildings!     Q: This is before TODO 4 for a reason! Why?
             
             for (var i = 0; i < 5; i++) {
-                var buildingColors = ["pink", "blue", "yellow", "orange", "purple"]
-                var buildingHeight = 300 * Math.random(); // assign 300 to the buildingHeight variable
-                var building = draw.rect(75, buildingHeight, buildingColors[i], "black", 1); // draw rect with 75 width, buildingHeight is the height, light gray as the fill color, black as the outline, 1 as the outline width
-                building.x = 200 * i; // multiply 200 by currant i value and store it as the x pos for the building
-                building.y = groundY - buildingHeight; // takes the groundY, subtracts the building
+                //var buildingColors = [0, 1, 2, 3, 4]
+                //var buildingHeight = 300 * Math.random(); // assign 300 to the buildingHeight variable
+                var building = draw.bitmap("img/armorStand.png"); // draw rect with 75 width, buildingHeight is the height, light gray as the fill color, black as the outline, 1 as the outline width
+                building.x = 400 * i; // multiply 200 by currant i value and store it as the x pos for the building
+                building.y = groundY - 295; // takes the groundY, subtracts the building
                 background.addChild(building); // add our building to the background container
                 buildings.push(building); // add the building to the buildings array for futher manipulation
               }
             
             // TODO 3: Part 1 - Add a tree
-            tree = draw.bitmap("img/tree.png"); // creates a bitmap for a tree image and stores it in the variable tree
-            tree.x = canvasWidth; // places the tree off screen to the right
-            tree.y = groundY - 207; // places the tree on the ground, adjusted for tree height
-            background.addChild(tree); // add the tree to the background container
+            //tree = draw.bitmap("img/tree.png"); // creates a bitmap for a tree image and stores it in the variable tree
+            //tree.x = canvasWidth; // places the tree off screen to the right
+            //tree.y = groundY - 207; // places the tree on the ground, adjusted for tree height
+            //background.addChild(tree); // add the tree to the background container
             
         } // end of render function - DO NOT DELETE
         
@@ -88,11 +89,11 @@ var background = function (window) {
             var groundY = ground.y;
             
             // TODO 3: Part 2 - Move the tree!
-            tree.x -= 3; //moves the tree to the left by subtracting 3 from its current x poistion
+            //tree.x -= 3; //moves the tree to the left by subtracting 3 from its current x poistion
 
-            if (tree.x < -200) {
-                tree.x = canvasWidth;
-            }
+           // if (tree.x < -200) {
+            //    tree.x = canvasWidth;
+            //}
             
             // TODO 4: Part 2 - Parallax
 
