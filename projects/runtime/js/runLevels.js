@@ -3,7 +3,7 @@ var runLevels = function (window) {
 
   var draw = window.opspark.draw;
   var createjs = window.createjs;
-  let currentLevel = 2;
+  let currentLevel = 0;
 
   window.opspark.runLevelInGame = function (game) {
     // some useful constants
@@ -65,11 +65,10 @@ var runLevels = function (window) {
   //createEnemy(800, groundY - 50, 2, -30);
   //createEnemy(1200, groundY - 50, 7, -50);
 
-  function createBoss (x,y, hitSize, velocity, damage, image, scaleX, scaleY, offSetX, offSetY){
+  function createBoss (x,y, hitSize, velocity, damage, image, scaleX, scaleY, offSetX, offSetY, hp){
     var boss = game.createGameItem("boss", hitSize); //creates enemy and adds it to the game
     var redSquare = draw.bitmap(image); //creates a red square and stores it in a variable
     var hits = 0;
-    var hp = 8;
     redSquare.x = offSetX; //offsets the red squares image from the hitzone by -25 pixls
     redSquare.y = offSetY; //offsets the red squares image from the hitzone by -25 pixls
     boss.addChild(redSquare); //adds the red square as a child to our enemy variable
@@ -79,19 +78,19 @@ var runLevels = function (window) {
     redSquare.scaleY = scaleY;
     game.addGameItem(boss); //adds enemy to game
     boss.velocityX -= velocity; //controlling how fast the enemy moves on the x axis
-    boss.rotationalVelocity = rotation; //sets the rotational velocity of the enemy
     boss.onPlayerCollision = function () {
       game.changeIntegrity(damage) //subtracts 10 health from halleBot's HUD
     };
     boss.onProjectileCollision = function (){
       if (hp === 0) {
       boss.fadeOut();
+      game.increaseScore(2000);
      }
     else {
         hits = hits + 1;
         game.increaseScore(1000);//increases your score when halle shoots the enemy
         boss.shrink();
-        createBoss(boss.x + 100, boss.groundY - 50, 165, 5, -30, "img/kingMaskOn.png", 4, 4, -140, -190, hp - hits);
+        createBoss(boss.x - 5, boss.y, hitSize, velocity, damage, image, scaleX, scaleY, offSetX, offSetY, hp - hits);
       }
     }
   }
@@ -207,7 +206,7 @@ var runLevels = function (window) {
           createEnemy(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
         }
         if(element.type === "boss"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
-          createBoss(element.x, element.y, element.hitSize, element.velocity, element.damage, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function
+          createBoss(element.x, element.y, element.hitSize, element.velocity, element.damage, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY, element.hp); //if the condition is true it will call the relevant function
         }
         if(element.type === "reward"){ //checks the type key: value of the gameItems objects to determine which objects to manifest
           createReward(element.x, element.y, element.hitSize, element.velocity, element.health, element.image, element.scaleX, element.scaleY, element.offSetX, element.offSetY); //if the condition is true it will call the relevant function

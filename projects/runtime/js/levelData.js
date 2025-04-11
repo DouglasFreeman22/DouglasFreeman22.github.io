@@ -72,6 +72,7 @@ var makeLevelData = function (window) {
        
           { type: "chest", x: 2000, y: groundY - 15, hitSize: 50, velocity: 3, health: 40, scaleX: 0.3, scaleY: 0.3, offSetX: -53, offSetY: -90},
        
+          { type: "level", x: 3400, y: groundY - 60, hitSize: 50, velocity: -4, scaleX: 1, scaleY: 1, offSetX: -68, offSetY: -90},
         ],
       },
       {
@@ -79,7 +80,7 @@ var makeLevelData = function (window) {
         number: 3,
         speed: -3,
         gameItems: [
-          { type: "boss", x: 1550, y: groundY - 145, hitSize: 165, velocity: 5, damage: -30, image: "img/kingMaskOn.png", scaleX: 4, scaleY: 4, offSetX: -140, offSetY: -190},
+          { type: "boss", x: 1550, y: groundY - 45, hitSize: 25, velocity: 4, damage: -30, image: "img/kingMaskOn.png", scaleX: 4, scaleY: 4, offSetX: -140, offSetY: -280, hp: 80},
         ],
       },
     ];
