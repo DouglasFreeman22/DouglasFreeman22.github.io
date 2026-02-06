@@ -1,32 +1,33 @@
 $(document).ready(function () {
   // Your code goes here
-$("<div>")
-  .css("height", 15)
-  .css("width", 15)
-  .css("background-color", "black")
-  .css("position", "absolute")
-  .css("top",43)
-  .css("left", 43)
-  .appendTo("#die");
+$("<div>").css({
+  height: 15,
+  width: 15,
+  backgroundColor: black,
+  position: absolute,
+  top: 43,
+  left: 43,
+}).appendTo("#die")
 ;
-$("<div>")
-  .css("height", 15)
-  .css("width", 15)
-  .css("background-color", "black")
-  .css("position", "absolute")
-  .css("top", 43)
-  .css("left", 43)
-  .appendTo("#die2");
+$("<div>").css({
+  height: 15,
+  width: 15,
+  backgroundColor: black,
+  position: absolute,
+  top: 43,
+  left: 43,
+}).appendTo("#die2")
 });
 function makeDot(top, left, elementID){
-  $("<div>")
-  .css("height", 15)
-  .css("width", 15)
-  .css("background-color", "black")
-  .css("position", "absolute")
-  .css("top", top)
-  .css("left", left)
-  .appendTo(elementID);
+  $("<div>").css({
+  height: 15,
+  width: 15,
+  backgroundColor: "black",
+  position: "absolute",
+  top: top,
+  left: left,
+  "border-radius": "50%"
+  }).appendTo(elementID)
 }
 function rollDie(dieID){
   $(dieID).empty();
