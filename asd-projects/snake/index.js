@@ -20,8 +20,8 @@ var apple = {};
 const snake = {};
 
 // Constant Variables
-var ROWS = 20;
-var COLUMNS = 20;
+var ROWS = 21;
+var COLUMNS = 21;
 var SQUARE_SIZE = 20;
 var KEY = {
   LEFT: 37,
@@ -44,7 +44,7 @@ var activeKey;
 $("body").on("keydown", handleKeyDown);
 
 // start the game
-init(makeApple());
+init();
 
 function init() {
   // TODO 5, Part 2: initialize the snake
@@ -55,7 +55,7 @@ makeSnakeSquare(10, 8); // Create a third square to the left of the second
 snake.head = snake.body[0]; // Mark the first segment as the head
   
   // TODO 4, Part 3: initialize the apple
-
+makeApple();
 
   // TODO 6, Part 1: Initialize the interval
 updateInterval = setInterval(update, 100);
@@ -158,11 +158,6 @@ function moveBodyAToBodyB(bodyA, bodyB){
   bodyA.column = bodyB.column
   bodyA.direction = bodyB.direction
 };
-console.log("Moving body A to body B...");
-setTimeout(() => {
-  moveBodyAToBodyB(snake.body[1], snake.head);
-  repositionSquare(snake.body[1]);
-}, 2_000);
 
 
 
@@ -316,7 +311,11 @@ function handleKeyDown(event) {
   // TODO 7: make the handleKeyDown function register which key is pressed
 activeKey = event.which;
 console.log(activeKey);
-
+// turns the snakes head
+  function turnSnakeHead(degrees) {
+  const head = document.getElementById('snake-head');
+  head.style.transform = `rotate(${degrees}deg)`;
+}
   // If a valid direction key is pressed, start the game
   if (
     event.which === KEY.LEFT ||
@@ -325,6 +324,16 @@ console.log(activeKey);
     event.which === KEY.DOWN
   ) {
     started = true; // the game starts when the first key is pressed
+    
+    if(event.which === KEY.LEFT){
+    turnSnakeHead(270);
+    } else if(event.which === KEY.RIGHT){
+    turnSnakeHead(90);
+    } else if(event.which === KEY.UP){
+    turnSnakeHead(0);
+    } else if(event.which === KEY.DOWN){
+    turnSnakeHead(180);
+    }
   }
 }
 

@@ -1,6 +1,9 @@
 
 body {
-  background-color: darkgreen;
+  background-image: url('forest_background.png');
+  background-size: cover;       
+  background-attachment: fixed;
+  background-position: center;
 }
 
 #board {
@@ -28,10 +31,15 @@ body {
 }
 
 #snake-head {
-  background-color: darkgreen;
+  background-image: url('snake1.png');
+  background-size: 200%;
+  background-position: center;
+  transform: rotate(90deg);
 }
 
 .apple {
-  background-color: red;
+  background-image: url('apple.png');
+  background-size: 110%;       
+  background-position: center;
   z-index: 1;
 }
