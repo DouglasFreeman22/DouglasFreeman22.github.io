@@ -16,10 +16,20 @@ function runProgram(){
   UP: 38,
   RIGHT: 39,
   DOWN: 40,
+  W: 87,
+  A: 65,
+  S: 83,
+  D: 68
 };
 var walker = {
   x: 0,
   y: 0,
+  speedX: 0,
+  speedY: 0,
+} 
+var walker2 = {
+  x: 300,
+  y: 300,
   speedX: 0,
   speedY: 0,
 }
@@ -48,6 +58,7 @@ var walker = {
   */
   function newFrame() {
     repositionGameItem();
+    wallCollision();
     redrawGameItem();
   }
   /* 
@@ -74,13 +85,32 @@ var walker = {
       walker.speedY = 5;
       walker.speedX = 0;
       console.log("down pressed");
-  }
+  } else if (event.which === KEY.A) {
+      walker2.speedX = -6;
+      walker2.speedY = 0;
+      console.log("A pressed");
+  } else if (event.which === KEY.D) {
+      walker2.speedX = 6;
+      walker2.speedY = 0;
+      console.log("D pressed");
+  } else if (event.which === KEY.W) {
+      walker2.speedY = -6;
+      walker2.speedX = 0;
+      console.log("W pressed");
+  } else if (event.which === KEY.S) {
+      walker2.speedY = 6;
+      walker2.speedX = 0;
+      console.log("S pressed");
   }
   function handleKeyUp(event){
    if(event.which === KEY.LEFT || event.which === KEY.RIGHT){
     walker.speedX = 0;
    } else if(event.which === KEY.UP || event.which === KEY.DOWN){
     walker.speedY = 0;
+   if(event.which === KEY.A || event.which === KEY.D){
+    walker2.speedX = 0;
+   } else if(event.which === KEY.W || event.which === KEY.S){
+    walker2.speedY = 0;
    }
   }
 
@@ -88,14 +118,30 @@ var walker = {
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  function wallCollision(){
+    if (walker.x <= -1 || walker.x + $("#walker").width() >= $("#board").width()){
+      walker.x -= walker.speedX;
+    } else if (walker.y <= -1 || walker.y + $("#walker").height() >= $("#board").height()){
+      walker.y -= walker.speedY;
+    }
+    if (walker2.x <= -1 || walker2.x + $("#walker2").width() >= $("#board").width()){
+      walker2.x -= walker2.speedX;
+    } else if (walker2.y <= -1 || walker2.y + $("#walker2").height() >= $("#board").height()){
+      walker2.y -= walker2.speedY;
+    }
+  }
+
   function repositionGameItem(){
   walker.x = walker.x + walker.speedX;
   walker.y = walker.y + walker.speedY;
+  walker2.x = walker2.x + walker2.speedX;
+  walker2.y = walker2.y + walker2.speedY;
   }
   function redrawGameItem(){
-    $("#walker").css("left", walker.x);
-    $("#walker").css("top", walker.y);
-
+    $("#walker").css("left", walker.x + "px");
+    $("#walker").css("top", walker.y + "px");
+    $("#walker2").css("left", walker2.x + "px");
+    $("#walker2").css("top", walker2.y + "px");
   }
   
   function endGame() {
