@@ -64,6 +64,8 @@ var player2 = {
   On each "tick" of the timer, a new frame is dynamically drawn using JavaScript
   by calling this function and executing the code inside.
   */
+
+  //Moves, checks if they collided and then redraws itself
   function newFrame() {
     repositionGameItem(player1);
     repositionGameItem(player2);
@@ -86,6 +88,8 @@ var player2 = {
   
   Note: You can have multiple event handlers for different types of events.
   */
+
+  //Determines what happens when a certain key on your keyboard is pressed
   function handleKeyDown(event) {
     console.log(event.which);
     if (event.which === KEY.LEFT) {
@@ -126,6 +130,7 @@ var player2 = {
     colorChange(player2);
   }
 }
+//Determines what happens when a certain key on your keyboard is released
   function handleKeyUp(event){
    if(event.which === KEY.LEFT || event.which === KEY.RIGHT){
     player1.speedX = 0;
@@ -142,19 +147,21 @@ var player2 = {
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
+  //Tests if the players have collided
   function playerCollided(a, b){
     return(a.x < b.x + PLAYER_WIDTH &&
        b.x < a.x + PLAYER_WIDTH &&
        a.y < b.y + PLAYER_HEIGHT &&
        b.y < a.y + PLAYER_HEIGHT)
   }
-
+//Changes the color of the player randomly
   function colorChange(player){
     var randomColor = "#000000".replace(/0/g, function () {
       return (~~(Math.random() * 16)).toString(16);
     });
     $(player.id).css("background-color", randomColor);
   }
+  //Tests to see of the player has collided with the wall and if they have then it stops them
   function wallCollision(player){
     if (player.x < 0 || player.x > BOARD_WIDTH - PLAYER_WIDTH){
       player.x -= player.speedX;
@@ -162,10 +169,12 @@ var player2 = {
       player.y -= player.speedY;
     }
   }
+  //Allows the players to move
   function repositionGameItem(player){
     player.x += player.speedX;
     player.y += player.speedY;
   }
+  //Shows the player moving by redrawing them
   function redrawGameItem(player){
     $(player.id).css("left", player.x);
     $(player.id).css("top", player.y);
