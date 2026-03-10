@@ -75,7 +75,7 @@ function reddify(pixelArray){
 
 // TODO 7 & 8: Create more filter functions
 function decreaseBlue(pixelArray){
-  keepInBounds(pixelArray[BLUE] -= 50);
+  pixelArray[Blue] = keepInBounds(pixelArray[BLUE] - 50);
 }
 function increaseGreenByBlue(pixelArray){
   keepInBounds(pixelArray[GREEN] += pixelArray[BLUE]);
