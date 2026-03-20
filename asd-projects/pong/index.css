@@ -19,3 +19,10 @@ body {
 /*   left: 100px; */  /* Uncomment if you want to set a "starting" position */
 /*   top: 100px;  */  /* Uncomment if you want to set a "starting" position */
 }
+#paddle {
+  width: 440px;
+  height: 440px;
+  border: 1px solid rgb(252, 27, 27);
+  background-color: rgb(255, 9, 9);
+  position: relative;
+}
