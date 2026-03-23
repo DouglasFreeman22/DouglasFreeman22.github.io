@@ -35,3 +35,19 @@ body {
   left: 2465px;
   top: 200px;
 }
+#score1 {
+  background-color: rgb(255, 255, 255);
+  width: 90px;
+  height: 30px;
+  position: absolute;
+  left: 50px;
+  top: 2px;
+}
+#score2 {
+  background-color: rgb(255, 255, 255);
+  width: 90px;
+  height: 30px;
+  position: absolute;
+  left: 2354px;
+  top: 2px;
+}

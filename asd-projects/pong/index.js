@@ -11,6 +11,8 @@ function runProgram() {
   // Constant Variables
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
+  const BOARD_HEIGHT = $("#board").height();
+  const BOARD_WIDTH = $("#board").width();
   const KEY = {
     W: 87,
     UP: 38,
@@ -20,22 +22,32 @@ function runProgram() {
 
   // Game Item Objects
   var paddle1 = {
-    padX: 0,
-    padY: 0,
-    padSpeedY: 0,
+    X: 0,
+    Y: 500,
+    speedY: 0,
+    id: "#paddle1"
   };
   var paddle2 = {
-    padX: 0,
-    padY: 0,
-    padSpeedY: 0,
+    X: 0,
+    Y: 500,
+    speedY: 0,
+    id: "#paddle2"
   };
   var ball = {
-    ballX: 0,
-    ballY: 0,
-    ballSpeedX: 0,
-    ballSpeedY: 0,
+    X: 0,
+    Y: 0,
+    speedX: 0,
+    speedY: 0,
+    id: "#ball"
   };
-
+  var score1 = {
+    id: "#score1"
+  };
+  var score2 = {
+    id: "#score2"
+  };
+  var score1 = 0
+ $("#score1").text("Score " + score1);
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on("keydown", handleEvent); // change 'eventType' to the type of event you want to handle
@@ -49,7 +61,8 @@ function runProgram() {
   by calling this function and executing the code inside.
   */
   function newFrame() {
-    update();
+    update(paddle1);
+    update(paddle2);
   }
 
   /* 
@@ -76,45 +89,82 @@ function runProgram() {
       started = true; // the game starts when the first key is pressed
 
       if (event.which === KEY.UP) {
-        paddle2.padSpeedY = -5;
+        paddle2.speedY = -5;
       } else if (event.which === KEY.DOWN) {
-        paddle2.padSpeedY = 5;
+        paddle2.speedY = 5;
       } else if (event.which === KEY.W) {
-        paddle1.padSpeedY = -5;
+        paddle1.speedY = -5;
       } else if (event.which === KEY.S) {
-        paddle1.padSpeedY = 5;
+        paddle1.speedY = 5;
       }
     }
   }
 
-  function moveBall() {}
-
-  function hasCollidedWithWall() {
-    return false;
+  function moveBall() {
+    if(started){
+      ball.speedX = randomNum = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
+      ball.speedY = randomNum = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
+    }
   }
 
-  function hasHitWall() {
-    return false;
+  function hasCollidedWithWall(paddle) {
+    if(paddle.Y < BOARD_HEIGHT || paddle.Y > BOARD_HEIGHT){
+    return true;
+  }
+  return false;
+  }
+  function padWallCollition(paddle){
+    paddle.speedY = 0;
   }
 
-  function wallCollition() {}
+  function ballHasHitWall() {
+   if(ball.X < 5){
+    score2 += 1
+  } else if(ball.X > 2000){
+    score1 += 1
+  } else{
+    return false
+  }
+
+  }
+
+  function ballPaddleCollition(paddle) {
+    if(ball.X && ball.Y === paddle){
+      ball.speedX 
+    }
+  }
+
+  function handleBallPaddleCollition(){
+
+  }
+  function theEnd(){
+    if(score1 === 10 || score2 === 10){
+      return true;
+    }
+    return false;
+  }
 
   function update(paddle) {
-    paddle1.padY += paddle1.padSpeedY;
-    $("#paddle1").css("top", paddle1.padY + "px");
-    paddle2.padY += paddle2.padSpeedY;
-    $("#paddle2").css("top", paddle2.padY + "px");
+    paddle.Y += paddle.speedY;
+    ball.Y += ball.speedY;
+    $(paddle.id).css("top", paddle.Y + "px");
+    $("#ball").css("top", ball.Y + "px");
+    moveBall();
 
     if (started) {
       moveBall();
     }
 
-    if (hasCollidedWithWall()) {
-      endGame();
+    if (hasCollidedWithWall(paddle)) {
+      padWallCollition(paddle);
     }
+    if(ballPaddleCollition){
+      handleBallPaddleCollition();
+    }
+    ballHasHitWall();
 
-    if (hasHitWall()) {
-      wallCollition();
+    if(theEnd){
+      endGame();
     }
   }
 
