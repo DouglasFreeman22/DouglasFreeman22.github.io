@@ -25,29 +25,26 @@ function runProgram() {
     X: 0,
     Y: 500,
     speedY: 0,
-    id: "#paddle1"
+    id: "#paddle1",
   };
   var paddle2 = {
     X: 0,
     Y: 500,
     speedY: 0,
-    id: "#paddle2"
+    id: "#paddle2",
   };
   var ball = {
     X: 0,
     Y: 0,
     speedX: 0,
     speedY: 0,
-    id: "#ball"
+    id: "#ball",
   };
-  var score1 = {
-    id: "#score1"
-  };
-  var score2 = {
-    id: "#score2"
-  };
-  var score1 = 0
- $("#score1").text("Score " + score1);
+  var score1 = 0;
+  var score2 = 0;
+  $("#score1").text("Score " + score1);
+  $("#score2").text("Score " + score2);
+
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on("keydown", handleEvent); // change 'eventType' to the type of event you want to handle
@@ -61,8 +58,31 @@ function runProgram() {
   by calling this function and executing the code inside.
   */
   function newFrame() {
+    // Update ball position once per frame
+    if (started) {
+      ball.X += ball.speedX;
+      ball.Y += ball.speedY;
+    }
+
+    // Update paddles and draw
     update(paddle1);
     update(paddle2);
+
+    // Handle collisions and scoring
+    if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT - 30) {
+      ball.speedY *= -1;
+    }
+    ballPaddleCollision(paddle1);
+    ballPaddleCollision(paddle2);
+    ballHasHitWall();
+
+    // Draw ball
+    $("#ball").css("top", ball.Y + "px");
+    $("#ball").css("left", ball.X + "px");
+
+    if (theEnd()) {
+      endGame();
+    }
   }
 
   /* 
@@ -86,8 +106,10 @@ function runProgram() {
       event.which === KEY.W ||
       event.which === KEY.S
     ) {
-      started = true; // the game starts when the first key is pressed
-
+      if (!started) {
+        started = true; // the game starts when the first key is pressed
+        startBall();
+      }
       if (event.which === KEY.UP) {
         paddle2.speedY = -5;
       } else if (event.which === KEY.DOWN) {
@@ -97,75 +119,95 @@ function runProgram() {
       } else if (event.which === KEY.S) {
         paddle1.speedY = 5;
       }
+      $(document).on("keyup", function (event) {
+        if (event.which === KEY.W || event.which === KEY.S) {
+          paddle1.speedY = 0;
+        }
+        if (event.which === KEY.UP || event.which === KEY.DOWN) {
+          paddle2.speedY = 0;
+        }
+      });
     }
   }
 
-  function moveBall() {
-    if(started){
-      ball.speedX = randomNum = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
-      ball.speedY = randomNum = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
-    }
+  function startBall() {
+    ball.X = BOARD_WIDTH / 2;
+    ball.Y = BOARD_HEIGHT / 2;
+    ball.speedX = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
+    ball.speedY = (Math.random() * 3 + 2) * (Math.random() > 0.5 ? -1 : 1);
+  }
+  function resetBall() {
+    ball.X = BOARD_WIDTH / 2;
+    ball.Y = BOARD_HEIGHT / 2;
+    startBall();
   }
 
   function hasCollidedWithWall(paddle) {
-    if(paddle.Y < BOARD_HEIGHT || paddle.Y > BOARD_HEIGHT){
-    return true;
+    if (paddle.Y < 0 || paddle.Y > BOARD_HEIGHT - 300) {
+      return true;
+    }
+    return false;
   }
-  return false;
-  }
-  function padWallCollition(paddle){
+  function padWallCollition(paddle) {
     paddle.speedY = 0;
-  }
-
-  function ballHasHitWall() {
-   if(ball.X < 5){
-    score2 += 1
-  } else if(ball.X > 2000){
-    score1 += 1
-  } else{
-    return false
-  }
-
-  }
-
-  function ballPaddleCollition(paddle) {
-    if(ball.X && ball.Y === paddle){
-      ball.speedX 
+    // Keep paddle within bounds
+    if (paddle.Y < 0) {
+      paddle.Y = 0;
+    }
+    if (paddle.Y > BOARD_HEIGHT - 300) {
+      paddle.Y = BOARD_HEIGHT - 300;
     }
   }
 
-  function handleBallPaddleCollition(){
-
+  function ballHasHitWall() {
+    if (ball.X < 0) {
+      score2++;
+      resetBall();
+    } else if (ball.X > BOARD_WIDTH) {
+      score1++;
+      resetBall();
+    }
+    $("#score1").text("Score " + score1);
+    $("#score2").text("Score " + score2);
   }
-  function theEnd(){
-    if(score1 === 10 || score2 === 10){
+
+  function ballPaddleCollision(paddle) {
+    if (
+      paddle === paddle1 &&
+      ball.X < 40 &&
+      ball.Y > paddle.Y &&
+      ball.Y < paddle.Y + 300
+    ) {
+      ball.speedX *= -1;
+    }
+    if (
+      paddle === paddle2 &&
+      ball.X > BOARD_WIDTH - 40 &&
+      ball.Y > paddle.Y &&
+      ball.Y < paddle.Y + 300
+    ) {
+      ball.speedX *= -1;
+    }
+  }
+
+  function theEnd() {
+    if (score1 === 10 || score2 === 10) {
       return true;
     }
     return false;
   }
 
   function update(paddle) {
+    // Move paddle
     paddle.Y += paddle.speedY;
-    ball.Y += ball.speedY;
-    $(paddle.id).css("top", paddle.Y + "px");
-    $("#ball").css("top", ball.Y + "px");
-    moveBall();
 
-    if (started) {
-      moveBall();
-    }
 
+    // Check paddle wall collisions
     if (hasCollidedWithWall(paddle)) {
       padWallCollition(paddle);
     }
-    if(ballPaddleCollition){
-      handleBallPaddleCollition();
-    }
-    ballHasHitWall();
-
-    if(theEnd){
-      endGame();
-    }
+    // Draw paddle
+    $(paddle.id).css("top", paddle.Y + "px");
   }
 
   function endGame() {
