@@ -182,7 +182,7 @@ function runProgram() {
     }
     if (
       paddle === paddle2 &&
-      ball.X > BOARD_WIDTH - 40 &&
+      ball.X > BOARD_WIDTH - 65 &&
       ball.Y > paddle.Y &&
       ball.Y < paddle.Y + 300
     ) {
