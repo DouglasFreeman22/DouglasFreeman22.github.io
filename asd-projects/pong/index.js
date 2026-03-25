@@ -8,6 +8,7 @@ function runProgram() {
   ////////////////////////////////////////////////////////////////////////////////
   var started = false;
   var activeKey;
+  var aiOn = false;
   // Constant Variables
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
@@ -67,13 +68,18 @@ function runProgram() {
       ball.X += ball.speedX;
       ball.Y += ball.speedY;
       $("#ball").show();
-    } else{
+    } else {
       $("#ball").hide();
     }
 
     // Update paddles and draw
     update(paddle1);
     update(paddle2);
+
+    // Apply AI if enabled
+    if (aiOn) {
+      ai();
+    }
 
     // Handle collisions and scoring
     if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT - 30) {
@@ -119,6 +125,12 @@ function runProgram() {
   function handleKeyDown(event) {
     // the handleKeyDown function register which key is pressed
     activeKey = event.which;
+
+    // Handle AI toggle key
+    if (event.which === KEY.R) {
+      aiOn = true;
+    }
+
     // If a valid direction key is pressed, start the game
     if (
       event.which === KEY.UP ||
@@ -138,8 +150,6 @@ function runProgram() {
         paddle1.speedY = -10;
       } else if (event.which === KEY.S) {
         paddle1.speedY = 10;
-      } else if (event.which === KEY.R) {
-        ai();
       }
       // When the key is released, stop the paddle's movement
       $(document).on("keyup", function (event) {
@@ -165,7 +175,7 @@ function runProgram() {
     ball.Y = BOARD_HEIGHT / 2;
     startBall();
   }
-// Check if the paddle has collided with the top or bottom wall
+  // Check if the paddle has collided with the top or bottom wall
   function hasCollidedWithWall(paddle) {
     if (paddle.Y < 0 || paddle.Y > BOARD_HEIGHT - 300) {
       return true;
@@ -183,7 +193,7 @@ function runProgram() {
       paddle.Y = BOARD_HEIGHT - 300;
     }
   }
-// Check if the ball has hit the left or right wall and update scores accordingly
+  // Check if the ball has hit the left or right wall and update scores accordingly
   function ballHasHitWall() {
     if (ball.X < 0) {
       score2++;
@@ -215,7 +225,7 @@ function runProgram() {
       ball.speedX *= -1.2;
     }
   }
- // Check if either player has reached a score of 10, which ends the game
+  // Check if either player has reached a score of 10, which ends the game
   function theEnd() {
     if (score1 === 10 || score2 === 10) {
       return true;
@@ -226,7 +236,6 @@ function runProgram() {
   function update(paddle) {
     // Move paddle
     paddle.Y += paddle.speedY;
-
 
     // Check paddle wall collisions
     if (hasCollidedWithWall(paddle)) {
