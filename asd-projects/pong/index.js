@@ -12,7 +12,7 @@ function runProgram() {
   var aiLeftOn = false;
   var timesEPressed = 1;
   var timesQPressed = 1;
-  var mySound;
+  var paddleHitSound = new sound("pongSound.wav");
   // Constant Variables
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
@@ -242,13 +242,12 @@ function runProgram() {
     if (ball.X < 0) {
       score2++;
       resetBall();
-      mySound = new sound("mixkit-arcade-retro-game-over-213.wav");
-      mySound.play();
+      
+      paddleHitSound.play();
     } else if (ball.X > BOARD_WIDTH) {
       score1++;
       resetBall();
-      mySound = new sound("mixkit-arcade-retro-game-over-213.wav");
-      mySound.play();
+      paddleHitSound.play();
     }
     // Update score display
     $("#score1").text(score1);
@@ -263,7 +262,7 @@ function runProgram() {
       ball.Y < paddle.Y + 300
     ) {
       ball.speedX *= -1.2;
-      mySound = new sound("mixkit-arcade-retro-game-over-213.wav");
+      paddleHitSound = new sound("pongSound.wav");
       mySound.play();
     }
     if (
@@ -273,7 +272,7 @@ function runProgram() {
       ball.Y < paddle.Y + 300
     ) {
       ball.speedX *= -1.2;
-      mySound = new sound("mixkit-arcade-retro-game-over-213.wav");
+      mySound = new sound("pongSound.wav");
       mySound.play();
     }
     if (ball.speedX > 29) {
