@@ -13,7 +13,8 @@ function runProgram() {
   var timesEPressed = 1;
   var timesQPressed = 1;
   var paddleHitSound = new sound("pongSound.wav");
-  // Constant Variables
+  var BackgroundSound = new sound("BackgroundSound.wav");
+  // Constant Variabless
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
   const BOARD_HEIGHT = $("#board").height();
@@ -54,6 +55,7 @@ function runProgram() {
 
   $("#score1").text(score1);
   $("#score2").text(score2);
+ 
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // execute newFrame every 0.0166 seconds (60 Frames per second)
@@ -185,6 +187,11 @@ function runProgram() {
       if (!started) {
         started = true; // the game starts when the first key is pressed
         startBall();
+         //background music
+  BackgroundSound.sound.volume = 0.5;
+  BackgroundSound.sound.loop = true;
+  BackgroundSound.play();
+  paddleHitSound.sound.volume = 0.5;
       }
       if (event.which === KEY.UP) {
         paddle2.speedY = -10;
@@ -242,7 +249,7 @@ function runProgram() {
     if (ball.X < 0) {
       score2++;
       resetBall();
-      
+
       paddleHitSound.play();
     } else if (ball.X > BOARD_WIDTH) {
       score1++;
@@ -262,8 +269,7 @@ function runProgram() {
       ball.Y < paddle.Y + 300
     ) {
       ball.speedX *= -1.2;
-      paddleHitSound = new sound("pongSound.wav");
-      mySound.play();
+      paddleHitSound.play();
     }
     if (
       paddle === paddle2 &&
@@ -272,8 +278,7 @@ function runProgram() {
       ball.Y < paddle.Y + 300
     ) {
       ball.speedX *= -1.2;
-      mySound = new sound("pongSound.wav");
-      mySound.play();
+      paddleHitSound.play();
     }
     if (ball.speedX > 29) {
       ball.speedX = 29;
@@ -298,17 +303,17 @@ function runProgram() {
     // Draw paddle
     $(paddle.id).css("top", paddle.Y + "px");
   }
-   function sound(src) {
+  function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
     this.sound.setAttribute("preload", "auto");
     this.sound.setAttribute("controls", "none");
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
-    this.play = function() {
+    this.play = function () {
       this.sound.play();
     };
-    this.stop = function() {
+    this.stop = function () {
       this.sound.pause();
     };
   }
