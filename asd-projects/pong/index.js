@@ -133,9 +133,9 @@ function runProgram() {
   function aiRight() {
     //AI for paddle2
     if (paddle2.Y + paddle2.height / 2 < ball.Y) {
-      paddle2.speedY = 10;
+      paddle2.speedY = 6;
     } else if (paddle2.Y + paddle2.height / 2 > ball.Y) {
-      paddle2.speedY = -10;
+      paddle2.speedY = -6;
     } else {
       paddle2.speedY = 0;
     }
@@ -144,9 +144,9 @@ function runProgram() {
   function aiLeft() {
     //AI for paddle1
     if (paddle1.Y + paddle1.height / 2 < ball.Y) {
-      paddle1.speedY = 10;
+      paddle1.speedY = 6;
     } else if (paddle1.Y + paddle1.height / 2 > ball.Y) {
-      paddle1.speedY = -10;
+      paddle1.speedY = -6;
     } else {
       paddle1.speedY = 0;
     }

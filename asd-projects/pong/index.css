@@ -49,15 +49,15 @@ body {
 }
 #score1 {
   position: absolute;
-  left: calc(100% - 1000px);
-  top: calc(100% - 1060px);
+  left: calc(48.9% - 1px);
+  top: calc(1% - 1px);
   color: white;
   font-size: 40px;
 }
 #score2 {
   position: absolute;
-  left: calc(100% - 920px);
-  top: calc(100% - 1060px);
+  left: calc(50.5% - 1px);
+  top: calc(1% - 1px);
   color: white;
   font-size: 40px;
 }
