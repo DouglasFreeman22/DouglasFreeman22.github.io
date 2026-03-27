@@ -33,7 +33,7 @@ body {
   background-color: rgb(50, 46, 46);
   position: absolute;
   left: 10px;
-  top: 200px;
+  top: 50%;
   border-top-right-radius: 100%;
   border-bottom-right-radius: 100%;
 }
@@ -43,7 +43,7 @@ body {
   background-color: rgb(50, 46, 46);
   position: absolute;
   right: 10px;
-  top: 200px;
+  top: 50%;
   border-top-left-radius: 100%;
   border-bottom-left-radius: 100%;
 }

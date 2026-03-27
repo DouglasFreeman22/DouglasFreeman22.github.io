@@ -31,14 +31,14 @@ function runProgram() {
   // Game Item Objects
   var paddle1 = {
     X: 0,
-    Y: 500,
+    Y: $("#paddle1").height(),
     speedY: 0,
     id: "#paddle1",
     height: 300,
   };
   var paddle2 = {
     X: 0,
-    Y: 500,
+    Y: $("#paddle2").height(),
     speedY: 0,
     id: "#paddle2",
     height: 300,
@@ -82,7 +82,7 @@ function runProgram() {
     aiActivate();
 
     // Handle collisions and scoring
-    if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT + 88) {
+    if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT) {
       ball.speedY *= -1;
     }
     ballPaddleCollision(paddle1);
@@ -104,6 +104,7 @@ function runProgram() {
   */
   function handleEvent(event) {
     handleKeyDown(event);
+    handleKeyUp(event);
   }
 
   ////////////////////////////////////////////////////////////////////////////////
@@ -202,7 +203,10 @@ function runProgram() {
       } else if (event.which === KEY.S) {
         paddle1.speedY = 10;
       }
-      // When the key is released, stop the paddle's movement
+    }
+  }
+  function handleKeyUp(event) {
+    // When the key is released, stop the paddle's movement
       $(document).on("keyup", function (event) {
         if (event.which === KEY.W || event.which === KEY.S) {
           paddle1.speedY = 0;
@@ -211,7 +215,6 @@ function runProgram() {
           paddle2.speedY = 0;
         }
       });
-    }
   }
   // Start the ball moving in a random direction with a random speed
   function startBall() {
