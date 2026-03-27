@@ -67,7 +67,8 @@ function runProgram() {
   function newFrame() {
     // Update ball position once per frame
     moveBallIfStarted();
-
+    padWallCollition(paddle1);
+    padWallCollition(paddle2);
     // Update paddles and draw
     update(paddle1);
     update(paddle2);
@@ -223,13 +224,6 @@ function runProgram() {
     ball.Y = BOARD_HEIGHT / 2;
     startBall();
   }
-  // Check if the paddle has collided with the top or bottom wall
-  function hasCollidedWithWall(paddle) {
-    if (paddle.Y < 0 || paddle.Y > BOARD_HEIGHT - 180) {
-      return true;
-    }
-    return false;
-  }
   // If the paddle has collided with the wall, stop its movement and keep it within bounds
   function padWallCollition(paddle) {
     paddle.speedY = 0;
@@ -292,11 +286,6 @@ function runProgram() {
   function update(paddle) {
     // Move paddle
     paddle.Y += paddle.speedY;
-
-    // Check paddle wall collisions
-    if (hasCollidedWithWall(paddle)) {
-      padWallCollition(paddle);
-    }
     // Draw paddle
     $(paddle.id).css("top", paddle.Y + "px");
   }
