@@ -14,8 +14,10 @@ function runProgram() {
   var timesQPressed = 1;
   var paddleHitSound = new sound("pongSound.wav");
   var BackgroundSound = new sound("BackgroundSound.wav");
+  var PongWinSound = new sound("PongWin.wav");
   // Constant Variabless
-  const PADDLE_BUFFER = 40;
+  const PADDLE_BUFFER = 80; //Buffer to keep the paddle from going a bit in the wall
+  const BALL_BUFFER = 50; //Buffer to keep the ball from going a bit in the wall
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
   const BOARD_HEIGHT = $("#board").height();
@@ -76,7 +78,7 @@ function runProgram() {
     aiActivate();
 
     // Handle collisions and scoring
-    if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT) {
+    if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT - BALL_BUFFER) {
       ball.speedY *= -1;
     }
     // Checks if the paddle and wall have collided
@@ -131,9 +133,9 @@ function runProgram() {
   function aiRight() {
     //AI for paddle2
     if (paddle2.Y + paddle2.height / 2 < ball.Y) {
-      paddle2.speedY = 6;
+      paddle2.speedY = 7;
     } else if (paddle2.Y + paddle2.height / 2 > ball.Y) {
-      paddle2.speedY = -6;
+      paddle2.speedY = -7;
     } else {
       paddle2.speedY = 0;
     }
@@ -142,9 +144,9 @@ function runProgram() {
   function aiLeft() {
     //AI for paddle1
     if (paddle1.Y + paddle1.height / 2 < ball.Y) {
-      paddle1.speedY = 6;
+      paddle1.speedY = 7;
     } else if (paddle1.Y + paddle1.height / 2 > ball.Y) {
-      paddle1.speedY = -6;
+      paddle1.speedY = -7;
     } else {
       paddle1.speedY = 0;
     }
@@ -186,10 +188,10 @@ function runProgram() {
         started = true; // the game starts when the first key is pressed
         startBall();
          //background music
-  BackgroundSound.sound.volume = 0.5;
-  BackgroundSound.sound.loop = true;
-  BackgroundSound.play();
-  paddleHitSound.sound.volume = 0.5;
+       BackgroundSound.sound.volume = 0.5;
+       BackgroundSound.sound.loop = true;
+       BackgroundSound.play();
+       paddleHitSound.sound.volume = 0.5; //paddle hit sound volume
       }
       if (event.which === KEY.UP) {
         paddle2.speedY = -10;
@@ -319,6 +321,11 @@ function runProgram() {
     } else if (score2 === 10) {
       $("#endGameMessage").text("Player 2 wins!");
     }
+
+    //end game music
+      PongWinSound.play();
+      PongWinSound.sound.volume = 1;
+      BackgroundSound.stop(); //stops background music
     // hide the ball
     $("#ball").hide();
     // reset scores and paddles
