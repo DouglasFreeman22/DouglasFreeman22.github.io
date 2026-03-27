@@ -29,27 +29,21 @@ function runProgram() {
   };
 
   // Game Item Objects
-  var paddle1 = {
-    X: 0,
-    Y: $("#paddle1").height(),
-    speedY: 0,
-    id: "#paddle1",
-    height: 300,
-  };
-  var paddle2 = {
-    X: 0,
-    Y: $("#paddle2").height(),
-    speedY: 0,
-    id: "#paddle2",
-    height: 300,
-  };
-  var ball = {
-    X: 0,
-    Y: 0,
-    speedX: 0,
-    speedY: 0,
-    id: "#ball",
-  };
+  function GameItem ( X, Y, speedX, speedY, id, height){
+    var gameItem = {};
+    gameItem.id = id;
+    gameItem.X = X;
+    gameItem.Y = Y;
+    gameItem.speedX = speedX;
+    gameItem.speedY = speedY;
+    gameItem.height = height; 
+    return gameItem; 
+  }
+  
+  let paddle1 = GameItem(0, $("#paddle1").height(), 0, 0, "#paddle1", 300);
+  let paddle2 = GameItem(0, $("#paddle2").height(), 0, 0, "#paddle2", 300);
+  let ball = GameItem(0, 0, 0, 0, "#ball", 40);
+
   var score1 = 0;
   var score2 = 0;
 
@@ -243,8 +237,8 @@ function runProgram() {
     if (paddle.Y < 0) {
       paddle.Y = 0;
     }
-    if (paddle.Y > BOARD_HEIGHT - 180) {
-      paddle.Y = BOARD_HEIGHT - 180;
+    if (paddle.Y > BOARD_HEIGHT - paddle.height) {
+      paddle.Y = BOARD_HEIGHT - paddle.height;
     }
   }
   // Check if the ball has hit the left or right wall and update scores accordingly
@@ -254,7 +248,7 @@ function runProgram() {
       resetBall();
 
       paddleHitSound.play();
-    } else if (ball.X > BOARD_WIDTH) {
+    } else if (ball.X > BOARD_WIDTH - ball.height) {
       score1++;
       resetBall();
       paddleHitSound.play();
@@ -283,8 +277,8 @@ function runProgram() {
       ball.speedX *= -1.2;
       paddleHitSound.play();
     }
-    if (ball.speedX > 29) {
-      ball.speedX = 29;
+    if (ball.speedX > 27) {
+      ball.speedX = 27;
     }
   }
   // Check if either player has reached a score of 10, which ends the game
@@ -306,6 +300,7 @@ function runProgram() {
     // Draw paddle
     $(paddle.id).css("top", paddle.Y + "px");
   }
+  //sound function for background music and paddle hit sound
   function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
