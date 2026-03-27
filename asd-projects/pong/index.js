@@ -15,6 +15,7 @@ function runProgram() {
   var paddleHitSound = new sound("pongSound.wav");
   var BackgroundSound = new sound("BackgroundSound.wav");
   // Constant Variabless
+  const PADDLE_BUFFER = 40;
   const FRAME_RATE = 60;
   const FRAMES_PER_SECOND_INTERVAL = 1000 / FRAME_RATE;
   const BOARD_HEIGHT = $("#board").height();
@@ -67,8 +68,6 @@ function runProgram() {
   function newFrame() {
     // Update ball position once per frame
     moveBallIfStarted();
-    padWallCollition(paddle1);
-    padWallCollition(paddle2);
     // Update paddles and draw
     update(paddle1);
     update(paddle2);
@@ -80,6 +79,9 @@ function runProgram() {
     if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT) {
       ball.speedY *= -1;
     }
+    // Checks if the paddle and wall have collided
+    padWallCollision(paddle1);
+    padWallCollision(paddle2);
     ballPaddleCollision(paddle1);
     ballPaddleCollision(paddle2);
     ballHasHitWall();
@@ -225,14 +227,13 @@ function runProgram() {
     startBall();
   }
   // If the paddle has collided with the wall, stop its movement and keep it within bounds
-  function padWallCollition(paddle) {
-    paddle.speedY = 0;
+  function padWallCollision(paddle) {
     // Keep paddle within bounds
     if (paddle.Y < 0) {
       paddle.Y = 0;
     }
-    if (paddle.Y > BOARD_HEIGHT - paddle.height) {
-      paddle.Y = BOARD_HEIGHT - paddle.height;
+    if (paddle.Y > BOARD_HEIGHT - paddle.height - PADDLE_BUFFER) {
+      paddle.Y = BOARD_HEIGHT - paddle.height - PADDLE_BUFFER;
     }
   }
   // Check if the ball has hit the left or right wall and update scores accordingly
