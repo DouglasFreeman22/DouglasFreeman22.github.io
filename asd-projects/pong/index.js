@@ -8,13 +8,13 @@ function runProgram() {
   ////////////////////////////////////////////////////////////////////////////////
   var started = false;
   var activeKey;
-  var aiRightOn = false;
-  var aiLeftOn = false;
+  var aiOn = false;
   var timesEPressed = 1;
   var timesQPressed = 1;
   var paddleHitSound = new sound("pongSound.wav");
   var BackgroundSound = new sound("BackgroundSound.wav");
   var PongWinSound = new sound("PongWin.wav");
+  var aiSpeed = 7;
   // Constant Variabless
   const PADDLE_BUFFER = 80; //Buffer to keep the paddle from going a bit in the wall
   const BALL_BUFFER = 50; //Buffer to keep the ball from going a bit in the wall
@@ -57,7 +57,7 @@ function runProgram() {
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // execute newFrame every 0.0166 seconds (60 Frames per second)
   $(document).on("keydown", handleEvent); // change 'eventType' to the type of event you want to handle
-
+  $(document).on("keyup", handleEvent);
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -110,16 +110,6 @@ function runProgram() {
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
 
-  // Apply AI if enabled
-  function aiActivate() {
-    if (aiRightOn) {
-      aiRight();
-    }
-    if (aiLeftOn) {
-      aiLeft();
-    }
-  }
-
   // Update ball position once per frame if the game has started, if not keep it hidden
   function moveBallIfStarted() {
     if (started) {
@@ -130,25 +120,14 @@ function runProgram() {
       $("#ball").hide();
     }
   }
-  function aiRight() {
+  function ai(paddle) {
     //AI for paddle2
-    if (paddle2.Y + paddle2.height / 2 < ball.Y) {
-      paddle2.speedY = 7;
-    } else if (paddle2.Y + paddle2.height / 2 > ball.Y) {
-      paddle2.speedY = -7;
+    if (paddle.Y + paddle.height / 2 < ball.Y) {
+      paddle.speedY = aiSpeed;
+    } else if (paddle.Y + paddle.height / 2 > ball.Y) {
+      paddle.speedY = -aiSpeed;
     } else {
-      paddle2.speedY = 0;
-    }
-  }
-
-  function aiLeft() {
-    //AI for paddle1
-    if (paddle1.Y + paddle1.height / 2 < ball.Y) {
-      paddle1.speedY = 7;
-    } else if (paddle1.Y + paddle1.height / 2 > ball.Y) {
-      paddle1.speedY = -7;
-    } else {
-      paddle1.speedY = 0;
+      paddle.speedY = 0;
     }
   }
 
@@ -162,9 +141,10 @@ function runProgram() {
       timesEPressed++;
     }
     if (timesEPressed % 2 === 0) {
-      aiRightOn = true;
+      aiOn = true;
+      ai(paddle2);
     } else {
-      aiRightOn = false;
+      aiOn = false;
     }
 
     // Handle AI toggle key Q
@@ -172,9 +152,10 @@ function runProgram() {
       timesQPressed++;
     }
     if (timesQPressed % 2 === 0) {
-      aiLeftOn = true;
+      aiOn = true;
+      ai(paddle1);
     } else {
-      aiLeftOn = false;
+      aiOn = false;
     }
 
     // If a valid direction key is pressed, start the game
