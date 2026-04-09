@@ -157,12 +157,7 @@ function runProgram() {
 
     // Handle AI toggle key Q
     if (event.which === KEY.Q) {
-      timesQPressed++;
-    }
-    if (timesQPressed % 2 === 0) {
-      aiLeftOn = true;
-    } else {
-      aiLeftOn = false;
+      aiLeftOn = !aiLeftOn;
     }
 
     // If a valid direction key is pressed, start the game
