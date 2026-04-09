@@ -36,11 +36,11 @@ function runProgram() {
   };
 
   // Game Item Objects
-  function GameItem ( X, Y, speedX, speedY, id, height){
+  function GameItem ( x, y, speedX, speedY, id, height){
     return{
     id: id,
-    X: X,
-    Y: Y,
+    x: x,
+    y: y,
     speedX: speedX,
     speedY: speedY,
     height: height, 
@@ -87,7 +87,7 @@ function runProgram() {
     }
 
     // Handle collisions and scoring
-    if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT - BALL_BUFFER) {
+    if (ball.y <= 0 || ball.y >= BOARD_HEIGHT - BALL_BUFFER) {
       ball.speedY *= -1;
     }
     // Checks if the paddle and wall have collided
@@ -98,8 +98,8 @@ function runProgram() {
     ballHasHitWall();
 
     // Draw ball
-    $("#ball").css("top", ball.Y + "px");
-    $("#ball").css("left", ball.X + "px");
+    $("#ball").css("top", ball.y + "px");
+    $("#ball").css("left", ball.x + "px");
 
     // Check for end game condition
     if (theEnd()) {
@@ -118,8 +118,8 @@ function runProgram() {
   // Update ball position once per frame if the game has started, if not keep it hidden
   function moveBallIfStarted() {
     if (started) {
-      ball.X += ball.speedX;
-      ball.Y += ball.speedY;
+      ball.x += ball.speedX;
+      ball.y += ball.speedY;
       $("#ball").show();
     } else {
       $("#ball").hide();
@@ -127,9 +127,9 @@ function runProgram() {
   }
   function ai(paddle) {
     //AI for paddle2
-    if (paddle.Y + paddle.height / 2 < ball.Y) {
+    if (paddle.y + paddle.height / 2 < ball.y) {
       paddle.speedY = aiSpeed;
-    } else if (paddle.Y + paddle.height / 2 > ball.Y) {
+    } else if (paddle.y + paddle.height / 2 > ball.y) {
       paddle.speedY = -aiSpeed;
     } else {
       paddle.speedY = 0;
@@ -203,35 +203,35 @@ function runProgram() {
   }
   // Start the ball moving in a random direction with a random speed
   function startBall() {
-    ball.X = BOARD_WIDTH / 2;
-    ball.Y = BOARD_HEIGHT / 2;
+    ball.x = BOARD_WIDTH / 2;
+    ball.y = BOARD_HEIGHT / 2;
     ball.speedX = (Math.random() * 3 + 3) * (Math.random() > 0.5 ? -2 : 1);
     ball.speedY = (Math.random() * 3 + 3) * (Math.random() > 0.5 ? -2 : 1);
   }
   // Reset the ball to the center of the board and start it moving in a random direction
   function resetBall() {
-    ball.X = BOARD_WIDTH / 2;
-    ball.Y = BOARD_HEIGHT / 2;
+    ball.x = BOARD_WIDTH / 2;
+    ball.y = BOARD_HEIGHT / 2;
     startBall();
   }
   // If the paddle has collided with the wall, stop its movement and keep it within bounds
   function padWallCollision(paddle) {
     // Keep paddle within bounds
-    if (paddle.Y < 0) {
-      paddle.Y = 0;
+    if (paddle.y < 0) {
+      paddle.y = 0;
     }
-    if (paddle.Y > BOARD_HEIGHT - paddle.height - PADDLE_BUFFER) {
-      paddle.Y = BOARD_HEIGHT - paddle.height - PADDLE_BUFFER;
+    if (paddle.y > BOARD_HEIGHT - paddle.height - PADDLE_BUFFER) {
+      paddle.y = BOARD_HEIGHT - paddle.height - PADDLE_BUFFER;
     }
   }
   // Check if the ball has hit the left or right wall and update scores accordingly
   function ballHasHitWall() {
-    if (ball.X < 0) {
+    if (ball.x < 0) {
       score2++;
       resetBall();
 
       paddleHitSound.play();
-    } else if (ball.X > BOARD_WIDTH - ball.height) {
+    } else if (ball.x > BOARD_WIDTH - ball.height) {
       score1++;
       resetBall();
       paddleHitSound.play();
@@ -244,18 +244,18 @@ function runProgram() {
   function ballPaddleCollision(paddle) {
     if (
       paddle === paddle1 &&
-      ball.X < 50 &&
-      ball.Y > paddle.Y &&
-      ball.Y < paddle.Y + 300
+      ball.x < 50 &&
+      ball.y > paddle.y &&
+      ball.y < paddle.y + 300
     ) {
       ball.speedX *= -ballSpeedMultiplyer;
       paddleHitSound.play();
     }
     if (
       paddle === paddle2 &&
-      ball.X > BOARD_WIDTH - 85 &&
-      ball.Y > paddle.Y &&
-      ball.Y < paddle.Y + 300
+      ball.x > BOARD_WIDTH - 85 &&
+      ball.y > paddle.y &&
+      ball.y < paddle.y + 300
     ) {
       ball.speedX *= -ballSpeedMultiplyer;
       paddleHitSound.play();
@@ -274,9 +274,9 @@ function runProgram() {
   // Update the position of the paddle and check for wall collisions
   function update(paddle) {
     // Move paddle
-    paddle.Y += paddle.speedY;
+    paddle.y += paddle.speedY;
     // Draw paddle
-    $(paddle.id).css("top", paddle.Y + "px");
+    $(paddle.id).css("top", paddle.y + "px");
   }
   //sound function for background music and paddle hit sound
   function sound(src) {
