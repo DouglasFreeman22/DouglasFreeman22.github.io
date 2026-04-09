@@ -60,8 +60,8 @@ function runProgram() {
 
   // one-time setup
   let interval = setInterval(newFrame, FRAMES_PER_SECOND_INTERVAL); // execute newFrame every 0.0166 seconds (60 Frames per second)
-  $(document).on("keydown", handleEvent); // change 'eventType' to the type of event you want to handle
-  $(document).on("keyup", handleEvent);
+  $(document).on("keydown", handleKeyDown); // change 'eventType' to the type of event you want to handle
+  $(document).on("keyup", handleKeyUp);
   ////////////////////////////////////////////////////////////////////////////////
   ///////////////////////// CORE LOGIC ///////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////
@@ -110,10 +110,6 @@ function runProgram() {
   /* 
   Called in response to events.
   */
-  function handleEvent(event) {
-    handleKeyDown(event);
-    handleKeyUp(event);
-  }
 
   ////////////////////////////////////////////////////////////////////////////////
   ////////////////////////// HELPER FUNCTIONS ////////////////////////////////////
@@ -157,8 +153,17 @@ function runProgram() {
 
     // Handle AI toggle key Q
     if (event.which === KEY.Q) {
+      timesQPressed++;
+    }
+    if (timesQPressed % 2 === 0) {
+      aiLeftOn = true;
+    } else {
+      aiLeftOn = false;
+    }
+    /*if (event.which === KEY.Q) {
       aiLeftOn = !aiLeftOn;
     }
+    */
 
     // If a valid direction key is pressed, start the game
     if (
@@ -189,14 +194,12 @@ function runProgram() {
   }
   function handleKeyUp(event) {
     // When the key is released, stop the paddle's movement
-      $(document).on("keyup", function (event) {
         if (event.which === KEY.W || event.which === KEY.S) {
           paddle1.speedY = 0;
         }
         if (event.which === KEY.UP || event.which === KEY.DOWN) {
           paddle2.speedY = 0;
         }
-      });
   }
   // Start the ball moving in a random direction with a random speed
   function startBall() {
