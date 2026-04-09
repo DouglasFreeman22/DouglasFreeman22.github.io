@@ -8,13 +8,17 @@ function runProgram() {
   ////////////////////////////////////////////////////////////////////////////////
   var started = false;
   var activeKey;
-  var aiOn = false;
+  var aiRightOn = false;
+  var aiLeftOn = false;
   var timesEPressed = 1;
   var timesQPressed = 1;
   var paddleHitSound = new sound("pongSound.wav");
   var BackgroundSound = new sound("BackgroundSound.wav");
   var PongWinSound = new sound("PongWin.wav");
   var aiSpeed = 7;
+  var paddleSpeed = 10;
+  var ballSpeedMultiplyer = 1.2;
+  var ballSpeedLimit = 27;
   // Constant Variabless
   const PADDLE_BUFFER = 80; //Buffer to keep the paddle from going a bit in the wall
   const BALL_BUFFER = 50; //Buffer to keep the ball from going a bit in the wall
@@ -33,14 +37,14 @@ function runProgram() {
 
   // Game Item Objects
   function GameItem ( X, Y, speedX, speedY, id, height){
-    var gameItem = {};
-    gameItem.id = id;
-    gameItem.X = X;
-    gameItem.Y = Y;
-    gameItem.speedX = speedX;
-    gameItem.speedY = speedY;
-    gameItem.height = height; 
-    return gameItem; 
+    return{
+    id: id,
+    X: X,
+    Y: Y,
+    speedX: speedX,
+    speedY: speedY,
+    height: height, 
+     };
   }
   
   let paddle1 = GameItem(0, $("#paddle1").height(), 0, 0, "#paddle1", 300);
@@ -74,8 +78,13 @@ function runProgram() {
     update(paddle1);
     update(paddle2);
 
-    // Apply AI if enabled
-    aiActivate();
+    //Keeps the AI running
+    if (aiRightOn) {
+      ai(paddle2);
+    }
+    if (aiLeftOn) {
+      ai(paddle1);
+    }
 
     // Handle collisions and scoring
     if (ball.Y <= 0 || ball.Y >= BOARD_HEIGHT - BALL_BUFFER) {
@@ -141,10 +150,9 @@ function runProgram() {
       timesEPressed++;
     }
     if (timesEPressed % 2 === 0) {
-      aiOn = true;
-      ai(paddle2);
+      aiRightOn = true;
     } else {
-      aiOn = false;
+      aiRightOn = false;
     }
 
     // Handle AI toggle key Q
@@ -152,10 +160,9 @@ function runProgram() {
       timesQPressed++;
     }
     if (timesQPressed % 2 === 0) {
-      aiOn = true;
-      ai(paddle1);
+      aiLeftOn = true;
     } else {
-      aiOn = false;
+      aiLeftOn = false;
     }
 
     // If a valid direction key is pressed, start the game
@@ -175,13 +182,13 @@ function runProgram() {
        paddleHitSound.sound.volume = 0.5; //paddle hit sound volume
       }
       if (event.which === KEY.UP) {
-        paddle2.speedY = -10;
+        paddle2.speedY = -paddleSpeed;
       } else if (event.which === KEY.DOWN) {
-        paddle2.speedY = 10;
+        paddle2.speedY = paddleSpeed;
       } else if (event.which === KEY.W) {
-        paddle1.speedY = -10;
+        paddle1.speedY = -paddleSpeed;
       } else if (event.which === KEY.S) {
-        paddle1.speedY = 10;
+        paddle1.speedY = paddleSpeed;
       }
     }
   }
@@ -243,7 +250,7 @@ function runProgram() {
       ball.Y > paddle.Y &&
       ball.Y < paddle.Y + 300
     ) {
-      ball.speedX *= -1.2;
+      ball.speedX *= -ballSpeedMultiplyer;
       paddleHitSound.play();
     }
     if (
@@ -252,11 +259,11 @@ function runProgram() {
       ball.Y > paddle.Y &&
       ball.Y < paddle.Y + 300
     ) {
-      ball.speedX *= -1.2;
+      ball.speedX *= -ballSpeedMultiplyer;
       paddleHitSound.play();
     }
-    if (ball.speedX > 27) {
-      ball.speedX = 27;
+    if (ball.speedX > ballSpeedLimit) {
+      ball.speedX = ballSpeedLimit;
     }
   }
   // Check if either player has reached a score of 10, which ends the game
